@@ -79,7 +79,7 @@ namespace TrabalhoIA.Entities
             set
             {
                 _address = value.Trim().ToUpper();
-                if (_address != "U" || _address != "R")
+                if (_address != "U" && _address != "R")
                     ErrorList.Add("Invalid Address - " + _address);
             }
         }
@@ -98,7 +98,7 @@ namespace TrabalhoIA.Entities
             set
             {
                 _familySize = value.Trim().ToUpper();
-                if (_familySize != "LE3" || _familySize != "GT3")
+                if (_familySize != "LE3" && _familySize != "GT3")
                     ErrorList.Add("Invalid Family size - " + _familySize);
             }
         }
@@ -169,7 +169,7 @@ namespace TrabalhoIA.Entities
             }
         }
 
-        private static readonly string[] ValidJobs = { "teacher", "health", "services", "at_home", "other" };
+        private static readonly string[] ValidJobs = { "TEACHER", "HEALTH", "SERVICES", "AT_HOME", "OTHER" };
 
         private string _motherJob;
 
@@ -202,7 +202,7 @@ namespace TrabalhoIA.Entities
             }
         }
 
-        private static readonly string[] ValidReason = { "home", "reputation", "course", "other" };
+        private static readonly string[] ValidReason = { "HOME", "REPUTATION", "COURSE", "OTHER" };
         private string _reason;
         /// <summary>
         /// reason to choose this school (nominal: close to "home", school "reputation", "course" preference or "other")
@@ -218,7 +218,7 @@ namespace TrabalhoIA.Entities
             }
         }
 
-        private static readonly string[] ValidStudentsGuardian = { "mother", "father", "other" };
+        private static readonly string[] ValidStudentsGuardian = { "MOTHER", "FATHER", "OTHER" };
 
         private string _guardian;
         /// <summary>
