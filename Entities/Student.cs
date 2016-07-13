@@ -169,26 +169,73 @@ namespace TrabalhoIA.Entities
             }
         }
 
+        private static readonly string[] ValidJobs = { "teacher", "health", "services", "at_home", "other" };
+
+        private string _motherJob;
+
         /// <summary>
         /// Mjob - mother's job (nominal: "teacher", "health" care related, civil "services" (e.g. administrative or police), "at_home" or "other")
         /// </summary>
-        public string MotherJob { get; set; }
+        public string MotherJob
+        {
+            get { return _motherJob; }
+            set
+            {
+                _motherJob = value.ToUpper().Trim();
+                if (!ValidJobs.Contains(_motherJob))
+                    ErrorList.Add("Invalid mother's job - " + _motherJob);
+            }
+        }
 
+        private string _fatherJob;
         /// <summary>
         /// father's job (nominal: "teacher", "health" care related, civil "services" (e.g. administrative or police), "at_home" or "other")
         /// </summary>
-        public string FatherJob { get; set; }
+        public string FatherJob
+        {
+            get { return _fatherJob; }
+            set
+            {
+                _fatherJob = value.ToUpper().Trim();
+                if (!ValidJobs.Contains(_fatherJob))
+                    ErrorList.Add("Invalid father's job - " + _fatherJob);
+            }
+        }
 
+        private static readonly string[] ValidReason = { "home", "reputation", "course", "other" };
+        private string _reason;
         /// <summary>
         /// reason to choose this school (nominal: close to "home", school "reputation", "course" preference or "other")
         /// </summary>
-        public string Reason { get; set; }
+        public string Reason
+        {
+            get { return _reason; }
+            set
+            {
+                _reason = value.ToUpper().Trim();
+                if (!ValidReason.Contains(_reason))
+                    ErrorList.Add("Invalid Reason - " + _reason);
+            }
+        }
 
+        private static readonly string[] ValidStudentsGuardian = { "mother", "father", "other" };
+
+        private string _guardian;
         /// <summary>
         /// student's guardian (nominal: "mother", "father" or "other")
         /// </summary>
-        public string Guardian { get; set; }
+        public string Guardian
+        {
+            get { return _guardian; }
+            set
+            {
+                _guardian = value.ToUpper().Trim();
+                if (!ValidStudentsGuardian.Contains(_guardian))
+                    ErrorList.Add("Invalid Guardian - " + _guardian);
+            }
+        }
 
+        private int _travelTime;
         /// <summary>
         /// home to school travel time
         /// 1 - < 15 min
@@ -196,7 +243,18 @@ namespace TrabalhoIA.Entities
         /// 3 - 30 minto 1 hour
         /// 4 - >1 hour
         /// </summary>
-        public int TravelTime { get; set; }
+        public int TravelTime
+        {
+            get { return _travelTime; }
+            set
+            {
+                _travelTime = value;
+                if(_travelTime < 1 || _travelTime > 4)
+                    ErrorList.Add("Invalid travel time - " + _travelTime);
+            }
+        }
+
+        private int _studyTime;
 
         /// <summary>
         /// weekly study time  
@@ -205,105 +263,317 @@ namespace TrabalhoIA.Entities
         /// 3 - 5 to 10 hours
         /// 4 - > 10 hours
         /// </summary>
-        public int StudyTime { get; set; }
+        public int StudyTime
+        {
+            get { return _studyTime; }
+            set
+            {
+                _studyTime = value;
+                if (_studyTime < 1 || _studyTime > 4)
+                    ErrorList.Add("Invalid Study time - " + _studyTime);
+            }
+        }
+
+        private int _failures;
 
         /// <summary>
         /// number of past class failures  
         /// n if 1 <= n<3, else 4
         /// </summary>
-        public int Failures { get; set; }
+        public int Failures
+        {
+            get { return _failures; }
+            set
+            {
+                _failures = value;
+                if (_failures < 1 || _studyTime > 3)
+                    _failures = 4;
+            }
+        }
+
+        private string _schoolSuport;
 
         /// <summary>
         /// extra educational support (binary: yes or no)
         /// </summary>
-        public string SchoolSuport { get; set; }
+        public string SchoolSuport
+        {
+            get { return _schoolSuport; }
+            set
+            {
+                _schoolSuport = value.ToUpper().Trim();
+                if (!(_schoolSuport == "YES" || _schoolSuport == "NO"))
+                    ErrorList.Add("Invalid Extra educational - " + _schoolSuport);
+            }
+        }
 
+        private string _familySuport;
         /// <summary>
         /// family educational support (binary: yes or no)
         /// </summary>
-        public string FamilySuport { get; set; }
+        public string FamilySuport
+        {
+            get { return _familySuport; }
+            set
+            {
+                _familySuport = value.ToUpper().Trim();
+                if (!(_familySuport == "YES" || _familySuport == "NO"))
+                    ErrorList.Add("Invalid family educational support - " + _schoolSuport);
+            }
+        }
+
+        private string _paid;
 
         /// <summary>
         /// extra paid classes within the course subject (Math or Portuguese) (binary: yes or no)
         /// </summary>
-        public string Paid { get; set; }
+        public string Paid
+        {
+            get { return _paid; }
+            set
+            {
+                _paid = value.ToUpper().Trim();
+                if (!(_paid == "YES" || _paid == "NO"))
+                    ErrorList.Add("Invalid Paid - " + _paid);
+            }
+        }
+
+        private string _activities;
 
         /// <summary>
         ///  extra-curricular activities (binary: yes or no)
         /// </summary>
-        public string Activities { get; set; }
+        public string Activities
+        {
+            get { return _activities; }
+            set
+            {
+                _activities = value.ToUpper().Trim();
+                if (!(_activities == "YES" || _activities == "NO"))
+                    ErrorList.Add("Invalid extra-curricular activities - " + _activities);
+            }
+        }
 
+        private string _nursery;
         /// <summary>
         /// attended nursery school (binary: yes or no)
         /// </summary>
-        public string Nursery { get; set; }
+        public string Nursery
+        {
+            get { return _nursery; }
+            set
+            {
+                _nursery = value.ToUpper().Trim();
+                if (!(_nursery == "YES" || _nursery == "NO"))
+                    ErrorList.Add("Invalid attended nursery school - " + _nursery);
+            }
+        }
+
+        private string _higher;
 
         /// <summary>
         /// Wants to take higher education (binary: yes or no)
         /// </summary>
-        public string Higher { get; set; }
+        public string Higher
+        {
+            get { return _higher; }
+            set
+            {
+                _higher = value.ToUpper().Trim();
+                if (!(_higher == "YES" || _higher == "NO"))
+                    ErrorList.Add("Invalid information of to take higher education - " + _higher);
+            }
+        }
 
+        private string _internet;
         /// <summary>
         /// Internet access at home (binary: yes or no)
         /// </summary>
-        public string Internet { get; set; }
+        public string Internet
+        {
+            get { return _internet; }
+            set
+            {
+                _internet = value.ToUpper().Trim();
+                if (!(_internet == "YES" || _internet == "NO"))
+                    ErrorList.Add("Invalid Internet access at home - " + _internet);
+            }
+        }
+
+        private string _romantic;
 
         /// <summary>
         /// with a romantic relationship (binary: yes or no)
         /// </summary>
-        public string Romantic { get; set; }
+        public string Romantic
+        {
+            get { return _romantic; }
+            set
+            {
+                _romantic = value.ToUpper().Trim();
+                if (!(_romantic == "YES" || _romantic == "NO"))
+                    ErrorList.Add("Invalid romantic relationship - " + _romantic);
+            }
+        }
+
+        private int _familyRelationships;
 
         /// <summary>
         /// quality of family relationships (numeric: from 1 - very bad to 5 - excellent)
         /// </summary>
-        public int FamilyRelationships { get; set; }
+        public int FamilyRelationships
+        {
+            get { return _familyRelationships; }
+            set
+            {
+                _familyRelationships = value;
+                if (_familyRelationships < 1 || _familyRelationships > 5)
+                    ErrorList.Add("Invalid quality of family relationships - " + _familyRelationships);
+            }
+        }
+
+        private int _freeTime;
 
         /// <summary>
         /// free time after school (numeric: from 1 - very low to 5 - very high)
         /// </summary>
-        public int FreeTime { get; set; }
+        public int FreeTime
+        {
+            get { return _freeTime; }
+            set
+            {
+                _freeTime = value;
+                if (_freeTime < 1 || _freeTime > 5)
+                    ErrorList.Add("Invalid free time after school  - " + _freeTime);
+            }
+        }
+
+        private int _goout;
 
         /// <summary>
         /// going out with friends (numeric: from 1 - very low to 5 - very high)
         /// </summary>
-        public int Goout { get; set; }
+        public int Goout
+        {
+            get { return _goout; }
+            set
+            {
+                _goout = value;
+                if (_goout < 1 || _goout > 5)
+                    ErrorList.Add("Invalid information of going out with friends  - " + _goout);
+            }
+        }
 
+        private int _workdayAlcoholConsumption;
         /// <summary>
         /// workday alcohol consumption (numeric: from 1 - very low to 5 - very high)
         /// </summary>
-        public int WorkdayAlcoholConsumption { get; set; }
+        public int WorkdayAlcoholConsumption
+        {
+            get { return _workdayAlcoholConsumption; }
+            set
+            {
+                _workdayAlcoholConsumption = value;
+                if (_workdayAlcoholConsumption < 1 || _workdayAlcoholConsumption > 5)
+                    ErrorList.Add("Invalid information of workday alcohol consumption  - " + _workdayAlcoholConsumption);
+            }
+        }
 
+        private int _wekeendAlcoholConsumption;
         /// <summary>
         ///  weekend alcohol consumption (numeric: from 1 - very low to 5 - very high)
         /// </summary>
-        public int WeekendAcoholConsumption { get; set; }
+        public int WeekendAlcoholConsumption
+        {
+            get { return _wekeendAlcoholConsumption; }
+            set
+            {
+                _wekeendAlcoholConsumption = value;
+                if (_wekeendAlcoholConsumption < 1 || _wekeendAlcoholConsumption > 5)
+                    ErrorList.Add("Invalid information of weekend alcohol consumption  - " + _wekeendAlcoholConsumption);
+            }
+        }
+
+        private int _currentHealth;
 
         /// <summary>
         ///  current health status (numeric: from 1 - very bad to 5 - very good)
         /// </summary>
-        public int CurrentHealthStatus { get; set; }
+        public int CurrentHealthStatus
+        {
+            get { return _currentHealth; }
+            set
+            {
+                _currentHealth = value;
+                if (_currentHealth < 1 || _currentHealth > 5)
+                    ErrorList.Add("Invalid information of current health status  - " + _currentHealth);
+            }
+        }
 
+        private int _absences;
         /// <summary>
         /// number of school absences (numeric: from 0 to 93)
         /// </summary>
-        public int Absences { get; set; }
+        public int Absences
+        {
+            get { return _absences; }
+            set
+            {
+                _absences = value;
+                if (_absences < 0 || _absences > 93)
+                    ErrorList.Add("Invalid information of number of school absences  - " + _absences);
+            }
+        }
 
         #region # these grades are related with the course subject, Math or Portuguese:
+
+        private double _g1;
 
         /// <summary>
         /// first period grade (numeric: from 0 to 20)
         /// </summary>
-        public double G1 { get; set; }
+        public double G1
+        {
+            get { return _g1; }
+            set
+            {
+                _g1 = value;
+                if (_g1 < 0 || _g1 > 20)
+                    ErrorList.Add("Invalid information of first period grade  - " + _g1);
+            }
+        }
+
+        private double _g2;
 
         /// <summary>
         /// second period grade (numeric: from 0 to 20)
         /// </summary>
-        public double G2 { get; set; }
+        public double G2
+        {
+            get { return _g2; }
+            set
+            {
+                _g2 = value;
+                if (_g2 < 0 || _g2 > 20)
+                    ErrorList.Add("Invalid information of second period grade  - " + _g2);
+            }
+        }
+
+        private double _g3;
 
         /// <summary>
         /// final grade (numeric: from 0 to 20, output target)
         /// </summary>
-        public double G3 { get; set; }
+        public double G3
+        {
+            get { return _g3; }
+            set
+            {
+                _g3 = value;
+                if (_g3 < 0 || _g3 > 20)
+                    ErrorList.Add("Invalid information of final grade  - " + _g3);
+            }
+        }
 
         public Course TargetCourse { get; set; }
         #endregion
@@ -345,7 +615,7 @@ namespace TrabalhoIA.Entities
             Map(m => m.FreeTime).Index(24);
             Map(m => m.Goout).Index(25);
             Map(m => m.WorkdayAlcoholConsumption).Index(26);
-            Map(m => m.WeekendAcoholConsumption).Index(27);
+            Map(m => m.WeekendAlcoholConsumption).Index(27);
             Map(m => m.CurrentHealthStatus).Index(28);
             Map(m => m.Absences).Index(29);
             Map(m => m.G1).Index(30);
