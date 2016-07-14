@@ -169,6 +169,45 @@ namespace TrabalhoIA.Entities
             }
         }
 
+        public  int FatherJobNumber()
+        {
+            switch (_fatherJob)
+            {
+                case "TEACHER":
+                    return 1;
+                case "HEALTH":
+                    return 2;
+                case "SERVICES":
+                    return 3;
+                case "AT_HOME":
+                    return 4;
+                case "OTHER":
+                    return 5;
+                default :
+                    return 0;
+            }
+        }
+
+
+        public int MotherJobNumber()
+        {
+            switch (_motherJob)
+            {
+                case "TEACHER":
+                    return 1;
+                case "HEALTH":
+                    return 2;
+                case "SERVICES":
+                    return 3;
+                case "AT_HOME":
+                    return 4;
+                case "OTHER":
+                    return 5;
+                default:
+                    return 0;
+            }
+        }
+
         private static readonly string[] ValidJobs = { "TEACHER", "HEALTH", "SERVICES", "AT_HOME", "OTHER" };
 
         private string _motherJob;
@@ -218,6 +257,26 @@ namespace TrabalhoIA.Entities
             }
         }
 
+        public int ReasonNumber()
+        {
+            switch (_reason)
+            {
+                case "HOME":
+                    return 1;
+                case "SCHOOL":
+                    return 2;
+                case "REPUTATION":
+                    return 3;
+                case "COURSE":
+                    return 4;
+                case "OTHER":
+                    return 5;
+                default:
+                    return 0;
+            }
+        }
+
+
         private static readonly string[] ValidStudentsGuardian = { "MOTHER", "FATHER", "OTHER" };
 
         private string _guardian;
@@ -232,6 +291,21 @@ namespace TrabalhoIA.Entities
                 _guardian = value.ToUpper().Trim();
                 if (!ValidStudentsGuardian.Contains(_guardian))
                     ErrorList.Add("Invalid Guardian - " + _guardian);
+            }
+        }
+
+        public int GuardianNumber()
+        {
+            switch (_guardian)
+            {
+                case "MOTHER":
+                    return 1;
+                case "FATHER":
+                    return 2;
+                case "OTHER":
+                    return 3;
+                default:
+                    return 0;
             }
         }
 
