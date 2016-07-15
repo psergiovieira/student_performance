@@ -32,26 +32,6 @@ namespace StudentPerformanceApp
         public MainWindow()
         {
             InitializeComponent();
-            //var studentsPortugueseCourse = ReadRecords(@"D:\Studies\UFLA\IA\student\student-por.csv", Course.Portuguese);
-            //var studentsMathCourse = ReadRecords(@"D:\Studies\UFLA\IA\student\student-mat.csv", Course.Math);
-
-            //var matrix = ConvertToMatrix(studentsPortugueseCourse);
-            //var pca = new PrincipalComponentAnalysis(matrix, AnalysisMethod.Center);
-            //pca.Compute();
-
-
-
-            //var colletion = new SeriesCollection();
-            //var line = new LineSeries();
-            //line.Values = new ChartValues<double>();
-            //foreach (var principalComponent in pca.Components)
-            //{
-            //    line.Values.Add(principalComponent.Proportion);
-
-            //}
-            //colletion.Add(line);
-
-            //_chart.Series = colletion;
         }
 
         private void LoadData(object sender, RoutedEventArgs e)
