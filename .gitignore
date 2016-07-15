@@ -1,5 +1,8 @@
 .vs/
-bin/
-obj/
+ConsoleApplication/bin/
+ConsoleApplication/obj/
+WpfApplication/obj/
+WpfApplication/bin/
 *.suo
-packages/
+WpfApplication/packages/
+ConsoleApplication/packages/
