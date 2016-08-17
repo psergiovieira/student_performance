@@ -50,7 +50,7 @@ namespace StudentPerformanceApp
             line.Values = new ChartValues<double>();
             foreach (var principalComponent in pca.Components)
             {
-                line.Values.Add(principalComponent.Proportion);
+                line.Values.Add(principalComponent.Eigenvalue);
 
             }
             colletion.Add(line);
