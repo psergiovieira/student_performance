@@ -39,6 +39,9 @@ namespace StudentPerformanceApp
             var students = ReadRecords(_pathFile.Text, Course.Portuguese);
             _dataGrid.ItemsSource = students;
             var matrix = ConvertToMatrix(students);
+            var t = new ID3();
+            t.PlayTennis();
+            t.Compute(students);
             _matrixNumber.ItemsSource2D = matrix;
             var pca = new PrincipalComponentAnalysis(matrix, AnalysisMethod.Center);
             pca.Compute();
