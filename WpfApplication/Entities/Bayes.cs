@@ -13,7 +13,7 @@ namespace StudentPerformanceApp.Entities
     public class Bayes
     {
 
-        public void Compute(List<Student> students)
+        public int Compute(List<Student> students)
         {
             DataTable data = new DataTable("Students Performance");
 
@@ -103,6 +103,40 @@ namespace StudentPerformanceApp.Entities
             // Finally, the result can be translated back to one of the codewords using
             string result = codebook.Translate("G3", output); // result is "No"
             var a = 0;
+
+            List<bool> sucess = new List<bool>();
+            students.ForEach(student =>
+            {
+                int[] instance2 = codebook.Translate(
+                    student.School,
+                    student.Age.ToString(),
+                    student.Addreess,
+                    student.Sex, 
+                    student.FamilySize,
+                    student.MotherEducation.ToString(),
+                    student.ParentsCohabitationStatus.ToString(),
+                    student.FatherEducation.ToString(),
+                    student.TravelTime.ToString(),
+                    student.StudyTime.ToString(),
+                    student.FamilyRelationships.ToString(),
+                    student.FreeTime.ToString(),
+                    student.Goout.ToString(),
+                    student.WorkdayAlcoholConsumption.ToString(),
+                    student.WeekendAlcoholConsumption.ToString(),
+                    student.CurrentHealthStatus.ToString(),
+                    student.G1.ToString(),
+                    student.G2.ToString());
+
+                // Now, we can feed this instance to our model
+                int output2 = target.Compute(instance);
+
+                // Finally, the result can be translated back to one of the codewords using
+                string result2 = codebook.Translate("G3", output); // result is "No"
+                sucess.Add(result2 == student.G3.ToString());
+            });
+            var q = sucess.Where(c => c).ToList().Count;
+
+            return q;
         }
 
         public void Compute(double[,] students)

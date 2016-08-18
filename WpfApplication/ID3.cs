@@ -144,7 +144,7 @@ namespace StudentPerformanceApp
             string answer = codebook.Translate("school", tree.Compute(translate));
         }
 
-        public void Compute(List<Student> students)
+        public int Compute(List<Student> students)
         {
             DataTable data = new DataTable("Students Performance");
 
@@ -234,6 +234,35 @@ namespace StudentPerformanceApp
             var translate = codebook.Translate("GP", "15", "U", "F", "GT3", "4", "A", "4", "2", "2", "4", "3", "4", "2", "2", "2", "11","12");
             string answer = codebook.Translate("G3", tree.Compute(translate));
             var a = 0;
+
+            List<bool> sucess = new List<bool>();
+            students.ForEach(student =>
+            {
+                var translate2 = codebook.Translate(student.School,
+                    student.Age.ToString(),
+                    student.Addreess,
+                    student.Sex,
+                    student.FamilySize,
+                    student.MotherEducation.ToString(),
+                    student.ParentsCohabitationStatus.ToString(),
+                    student.FatherEducation.ToString(),
+                    student.TravelTime.ToString(),
+                    student.StudyTime.ToString(),
+                    student.FamilyRelationships.ToString(),
+                    student.FreeTime.ToString(),
+                    student.Goout.ToString(),
+                    student.WorkdayAlcoholConsumption.ToString(),
+                    student.WeekendAlcoholConsumption.ToString(),
+                    student.CurrentHealthStatus.ToString(),
+                    student.G1.ToString(),
+                    student.G2.ToString());
+                string answer2 = codebook.Translate("G3", tree.Compute(translate));
+                sucess.Add(answer2 == student.G3.ToString());
+            });
+
+            var q = sucess.Where(c => c).ToList().Count;
+
+            return q;
         }
 
         public void Compute1(List<Student> students)

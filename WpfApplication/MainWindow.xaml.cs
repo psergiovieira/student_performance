@@ -41,10 +41,11 @@ namespace StudentPerformanceApp
             var matrix = ConvertToMatrix(students);
             var t = new ID3();
             t.PlayTennis();
-            t.Compute(students);
+            var x = t.Compute(students);
 
             var bayes = new Bayes();
-            bayes.Compute(students);
+            var sucess = bayes.Compute(students);
+         
            // bayes.Compute(matrix);
             _matrixNumber.ItemsSource2D = matrix;
             var pca = new PrincipalComponentAnalysis(matrix, AnalysisMethod.Center);
