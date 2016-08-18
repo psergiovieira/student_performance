@@ -148,7 +148,99 @@ namespace StudentPerformanceApp
         {
             DataTable data = new DataTable("Students Performance");
 
-            var labels = new[] { "school", "age", "address", "sex","G3" };
+            var labels = new[] { "school", "age", "address", "sex", "famsize", "Medu", "Pstatus", "Fedu", "traveltime",
+                "studytime", "famrel", "freetime", "goout", "Dalc", "Walc", "health", "G1","G2","G3" };
+
+            data.Columns.Add("ID");
+            foreach (var label in labels)
+            {
+                data.Columns.Add(label);
+            }
+
+            int count = 0;
+            foreach (var student in students)
+            {
+                count++;
+                data.Rows.Add(count.ToString(),
+                                student.School,
+                                student.Age,
+                                student.Addreess,
+                                student.Sex,
+                                student.FamilySize,
+                                student.MotherEducation,
+                                student.ParentsCohabitationStatus,
+                                student.FatherEducation,
+                                student.TravelTime,
+                                student.StudyTime,
+                                student.FamilyRelationships,
+                                student.FreeTime,
+                                student.Goout,
+                                student.WorkdayAlcoholConsumption,
+                                student.WeekendAlcoholConsumption,
+                                student.CurrentHealthStatus,
+                                student.G1,
+                                student.G2,
+                                student.G3);
+            };
+
+            // Create a new codification codebook to 
+            // convert strings into integer symbols
+            Codification codebook = new Codification(data, labels);
+
+            // Translate our training data into integer symbols using our codebook:
+            DataTable symbols = codebook.Apply(data);
+
+            int[][] inputs = symbols.ToArray<int>(new[] { "school", "age", "address", "sex", "famsize", "Medu", "Pstatus", "Fedu", "traveltime", 
+                "studytime", "famrel", "freetime", "goout", "Dalc", "Walc", "health", "G1","G2" });
+
+            int[] outputs = symbols.ToArray<int>("G3");
+            // Gather information about decision variables
+
+            // Gather information about decision variables
+            DecisionVariable[] attributes =
+            {
+              new DecisionVariable("school",     2), 
+              new DecisionVariable("age", 8),  
+              new DecisionVariable("address",    2),
+              new DecisionVariable("sex",    2),
+              new DecisionVariable("famsize", 2),
+              new DecisionVariable("Medu", 5),
+              new DecisionVariable("Pstatus", 5), 
+              new DecisionVariable("Fedu", 5),
+              new DecisionVariable("traveltime",4),   
+              new DecisionVariable("studytime",4),           
+              new DecisionVariable("famrel", 5),  
+              new DecisionVariable("freetime", 5),  
+              new DecisionVariable("goout",5), 
+              new DecisionVariable("Dalc", 5), 
+              new DecisionVariable("Walc",5),            
+              new DecisionVariable("health",  5),   
+              new DecisionVariable("G1",21),
+               new DecisionVariable("G2",21)  
+            };
+
+
+
+            int classCount = 21;
+
+            //Create the decision tree using the attributes and classes
+            DecisionTree tree = new DecisionTree(attributes, classCount);
+
+            // Create a new instance of the ID3 algorithm
+            ID3Learning id3learning = new ID3Learning(tree);
+
+            // Learn the training instances!
+            id3learning.Run(inputs, outputs);
+            var translate = codebook.Translate("GP", "15", "U", "F", "GT3", "4", "A", "4", "2", "2", "4", "3", "4", "2", "2", "2", "11","12");
+            string answer = codebook.Translate("G3", tree.Compute(translate));
+            var a = 0;
+        }
+
+        public void Compute1(List<Student> students)
+        {
+            DataTable data = new DataTable("Students Performance");
+
+            var labels = new[] { "school", "age", "address", "sex", "G3" };
 
             data.Columns.Add("ID");
             foreach (var label in labels)
@@ -176,7 +268,7 @@ namespace StudentPerformanceApp
             // Translate our training data into integer symbols using our codebook:
             DataTable symbols = codebook.Apply(data);
 
-            int[][] inputs = symbols.ToArray<int>(new[] { "school", "age", "address","sex"});
+            int[][] inputs = symbols.ToArray<int>(new[] { "school", "age", "address", "sex" });
 
             int[] outputs = symbols.ToArray<int>("G3");
             // Gather information about decision variables
@@ -190,7 +282,6 @@ namespace StudentPerformanceApp
               new DecisionVariable("sex",    2)
             };
 
-
             int classCount = 21;
 
             //Create the decision tree using the attributes and classes
@@ -201,7 +292,7 @@ namespace StudentPerformanceApp
 
             // Learn the training instances!
             id3learning.Run(inputs, outputs);
-            var translate = codebook.Translate("GP", "15", "U","F");
+            var translate = codebook.Translate("GP", "15", "U", "F");
             string answer = codebook.Translate("G3", tree.Compute(translate));
             var a = 0;
         }

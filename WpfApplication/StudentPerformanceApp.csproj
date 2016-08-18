@@ -96,6 +96,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Entities\Bayes.cs" />
     <Compile Include="Entities\Course.cs" />
     <Compile Include="Entities\Student.cs" />
     <Compile Include="Entities\Util.cs" />
