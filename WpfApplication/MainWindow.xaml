@@ -35,7 +35,7 @@
             </TabItem>
         </TabControl>
         <Label Content="Dados descartados:" HorizontalAlignment="Left" Margin="829,51,0,0" VerticalAlignment="Top" Width="115"/>
-        <TextBlock HorizontalAlignment="Left" x:Name="_invalidData" Margin="824,58,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" x:Name="_invalidData" Text="" Margin="949,56,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
