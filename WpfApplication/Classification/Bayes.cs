@@ -12,7 +12,6 @@ namespace StudentPerformanceApp.Entities
 {
     public class Bayes
     {
-
         public int Compute(List<Student> students)
         {
             DataTable data = new DataTable("Students Performance");
@@ -128,10 +127,10 @@ namespace StudentPerformanceApp.Entities
                     student.G2.ToString());
 
                 // Now, we can feed this instance to our model
-                int output2 = target.Compute(instance);
+                int output2 = target.Compute(instance2);
 
                 // Finally, the result can be translated back to one of the codewords using
-                string result2 = codebook.Translate("G3", output); // result is "No"
+                string result2 = codebook.Translate("G3", output2); // result is "No"
                 sucess.Add(result2 == student.G3.ToString());
             });
             var q = sucess.Where(c => c).ToList().Count;
