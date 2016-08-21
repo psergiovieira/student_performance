@@ -33,6 +33,43 @@
                 </Grid>
 
             </TabItem>
+            <TabItem Header="Classificação">
+                <Grid Background="#FFE5E5E5">
+                    <StackPanel Orientation="Horizontal" Width="Auto">
+                        <StackPanel Orientation="Vertical" Width="Auto">
+                            <Label FontSize="16" FontStyle="Italic" Margin="20">Naive Bayes</Label>
+                            <StackPanel Orientation="Horizontal" Height="Auto">
+                                <Label>Acurácia:</Label>
+                                <TextBlock x:Name="txNBAcuracia" TextAlignment="Left" Margin="0,6,0,0">0</TextBlock>
+                            </StackPanel> 
+                            <StackPanel Orientation="Horizontal" Height="Auto">
+                                <Label>Precisão:</Label>
+                                <TextBlock x:Name="txNBPrecisao"  TextAlignment="Left" Margin="0,6,0,0">0</TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Height="Auto">
+                                <Label>Revocação:</Label>
+                                <TextBlock x:Name="txNBRevocacao" TextAlignment="Left" Margin="0,6,0,0">0</TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Width="Auto">
+                            <Label FontSize="16" FontStyle="Italic" Margin="20">Decision Trees</Label>
+                            <StackPanel Orientation="Horizontal" Height="Auto">
+                                <Label>Acurácia:</Label>
+                                <TextBlock x:Name="txDTAcuracia"  TextAlignment="Left" Margin="0,6,0,0">0</TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Height="Auto">
+                                <Label>Precisão:</Label>
+                                <TextBlock x:Name="txDTPrecisao"  TextAlignment="Left" Margin="0,6,0,0">0</TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Height="Auto">
+                                <Label>Revocação:</Label>
+                                <TextBlock x:Name="txDTRevocacao" TextAlignment="Left" Margin="0,6,0,0">0</TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                    
+                </Grid>
+            </TabItem>
         </TabControl>
         <Label Content="Dados descartados:" HorizontalAlignment="Left" Margin="829,51,0,0" VerticalAlignment="Top" Width="115"/>
         <TextBlock HorizontalAlignment="Left" x:Name="_invalidData" Text="" Margin="949,56,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>

@@ -97,6 +97,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Classification\Bayes.cs" />
+    <Compile Include="Classification\UtilClassification.cs" />
     <Compile Include="Entities\Course.cs" />
     <Compile Include="Entities\Student.cs" />
     <Compile Include="Entities\Util.cs" />

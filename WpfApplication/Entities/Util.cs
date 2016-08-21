@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace StudentPerformanceApp.Entities
 {
     public static class Util
     {
-        public static List<string> ValidSchools = new List<string>() {"GP","MS"};
+        public static List<string> ValidSchools = new List<string> {"GP","MS"};
     }
 }

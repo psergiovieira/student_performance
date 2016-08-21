@@ -1,24 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Accord.Statistics;
 using Accord.Statistics.Analysis;
 using CsvHelper;
 using LiveCharts;
-using LiveCharts.Helpers;
 using LiveCharts.Wpf;
 using StudentPerformanceApp.Entities;
 
@@ -40,14 +28,24 @@ namespace StudentPerformanceApp
             _dataGrid.ItemsSource = students;
             var matrix = ConvertToMatrix(students);
 
+            double entropy = matrix.Entropy();
+       
 
             var id3 = new ID3();
-            var x = id3.Compute(students);
+            var id3Classification = id3.Compute(students);
+            txDTAcuracia.Text = id3Classification.Accuracy.ToString("N2");
+            txDTPrecisao.Text = id3Classification.Precision.ToString("N2");
+            txDTRevocacao.Text = id3Classification.Recall.ToString("N2");
+            
 
             var bayes = new Bayes();
-            var sucess = bayes.Compute(students);
+            var bayesClassification = bayes.Compute(students);
+            txNBAcuracia.Text = bayesClassification.Accuracy.ToString("N2");
+            txNBPrecisao.Text = bayesClassification.Precision.ToString("N2");
+            txNBRevocacao.Text = bayesClassification.Recall.ToString("N2");
+
          
-           // bayes.Compute(matrix);
+           
             _matrixNumber.ItemsSource2D = matrix;
             var pca = new PrincipalComponentAnalysis(matrix, AnalysisMethod.Center);
             pca.Compute();
