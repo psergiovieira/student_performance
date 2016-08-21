@@ -4,7 +4,7 @@
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:dg2d="clr-namespace:DataGrid2DLibrary;assembly=DataGrid2DLibrary"
         Title="MainWindow" Height="600" Width="1200" ResizeMode="NoResize">
-   <Grid Margin="-2,0,2,38">
+    <Grid Margin="-2,0,2,38">
         <Grid.RowDefinitions>
             <RowDefinition Height="221*"/>
             <RowDefinition Height="98*"/>
@@ -12,8 +12,8 @@
         <Label Content="Trabalho de IA - Student Performance&#xD;&#xA;" HorizontalAlignment="Left" Margin="276,13,0,0" VerticalAlignment="Top"/>
         <Label Content="Ler dados em:&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,54,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.026,-0.462"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="251,55,0,0" TextWrapping="Wrap" x:Name="_pathFile"
-                 Text="D:\Studies\UFLA\IA\TrabalhoIA\student_performance\student\student-por.csv" VerticalAlignment="Top" Width="253"/>
-        <Button Content="Ok" HorizontalAlignment="Left" Margin="588,54,0,0" VerticalAlignment="Top" Width="75" Click="LoadData"/>
+                 Text="D:\Studies\UFLA\IA\TrabalhoIA\student_performance\dataset\student-por.csv" VerticalAlignment="Top" Width="441"/>
+        <Button Content="Processar dados" HorizontalAlignment="Left" Margin="713,51,0,0" VerticalAlignment="Top" Width="111" Click="LoadData"/>
         <TabControl HorizontalAlignment="Left" Height="422" Margin="10,101,0,0" VerticalAlignment="Top" Width="1174" Grid.RowSpan="2">
             <TabItem Header="Dados  processados">
                 <Grid Background="#FFE5E5E5">
@@ -22,8 +22,8 @@
             </TabItem>
             <TabItem Header="Matriz">
                 <Grid Background="#FFE5E5E5">
-                 
-                        <dg2d:DataGrid2D  VerticalAlignment="Top" Height="394" Width="1168" x:Name="_matrixNumber"/>
+
+                    <dg2d:DataGrid2D  VerticalAlignment="Top" Height="394" Width="1168" x:Name="_matrixNumber"/>
                 </Grid>
 
             </TabItem>
@@ -34,7 +34,7 @@
 
             </TabItem>
         </TabControl>
-        <Label Content="Dados descartados:" HorizontalAlignment="Left" Margin="704,54,0,0" VerticalAlignment="Top" Width="115"/>
+        <Label Content="Dados descartados:" HorizontalAlignment="Left" Margin="829,51,0,0" VerticalAlignment="Top" Width="115"/>
         <TextBlock HorizontalAlignment="Left" x:Name="_invalidData" Margin="824,58,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
 
     </Grid>

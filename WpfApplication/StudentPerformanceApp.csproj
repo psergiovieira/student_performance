@@ -96,11 +96,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Entities\Bayes.cs" />
+    <Compile Include="Classification\Bayes.cs" />
     <Compile Include="Entities\Course.cs" />
     <Compile Include="Entities\Student.cs" />
     <Compile Include="Entities\Util.cs" />
-    <Compile Include="ID3.cs" />
+    <Compile Include="Classification\ID3.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

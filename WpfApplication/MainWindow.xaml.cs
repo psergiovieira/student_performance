@@ -39,9 +39,10 @@ namespace StudentPerformanceApp
             var students = ReadRecords(_pathFile.Text, Course.Portuguese);
             _dataGrid.ItemsSource = students;
             var matrix = ConvertToMatrix(students);
-            var t = new ID3();
-            t.PlayTennis();
-            var x = t.Compute(students);
+
+
+            var id3 = new ID3();
+            var x = id3.Compute(students);
 
             var bayes = new Bayes();
             var sucess = bayes.Compute(students);
