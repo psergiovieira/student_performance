@@ -29,13 +29,18 @@ namespace StudentPerformanceApp
             var matrix = ConvertToMatrix(students);
 
             double entropy = matrix.Entropy();
-       
+            var a = Tools.Entropy(matrix,1);
 
             var id3 = new ID3();
             var id3Classification = id3.Compute(students);
             txDTAcuracia.Text = id3Classification.Accuracy.ToString("N2");
             txDTPrecisao.Text = id3Classification.Precision.ToString("N2");
             txDTRevocacao.Text = id3Classification.Recall.ToString("N2");
+            txDTAcertos.Text = id3Classification.PredictedPositives.ToString("N2");
+            txDTErros.Text = id3Classification.PredictedNegatives.ToString("N2");
+            txDTPorcentagemAcertos.Text =
+                ((id3Classification.PredictedPositives*100)/
+                 (id3Classification.PredictedPositives + id3Classification.PredictedNegatives)).ToString("N2");
             
 
             var bayes = new Bayes();
@@ -43,7 +48,11 @@ namespace StudentPerformanceApp
             txNBAcuracia.Text = bayesClassification.Accuracy.ToString("N2");
             txNBPrecisao.Text = bayesClassification.Precision.ToString("N2");
             txNBRevocacao.Text = bayesClassification.Recall.ToString("N2");
-
+            txNBAcertos.Text = bayesClassification.PredictedPositives.ToString("N2");
+            txNBErros.Text = bayesClassification.PredictedNegatives.ToString("N2");
+            txNBPorcentagemAcertos.Text =
+                ((bayesClassification.PredictedPositives * 100) /
+                 (bayesClassification.PredictedPositives + bayesClassification.PredictedNegatives)).ToString("N2");
          
            
             _matrixNumber.ItemsSource2D = matrix;

@@ -50,6 +50,18 @@
                                 <Label>Revocação:</Label>
                                 <TextBlock x:Name="txNBRevocacao" TextAlignment="Left" Margin="0,6,0,0">0</TextBlock>
                             </StackPanel>
+                            <StackPanel Orientation="Horizontal" Height="Auto">
+                                <Label>Classificados corretamente:</Label>
+                                <TextBlock x:Name="txNBAcertos" TextAlignment="Left" Margin="0,6,0,0">0</TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Height="Auto">
+                                <Label>Classificados incorretamente:</Label>
+                                <TextBlock x:Name="txNBErros" TextAlignment="Left" Margin="0,6,0,0">0</TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Height="Auto">
+                                <Label>Porcentagem de acertos:</Label>
+                                <TextBlock x:Name="txNBPorcentagemAcertos" TextAlignment="Left" Margin="0,6,0,0">0</TextBlock>
+                            </StackPanel>
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Width="Auto">
                             <Label FontSize="16" FontStyle="Italic" Margin="20">Decision Trees</Label>
@@ -64,6 +76,18 @@
                             <StackPanel Orientation="Horizontal" Height="Auto">
                                 <Label>Revocação:</Label>
                                 <TextBlock x:Name="txDTRevocacao" TextAlignment="Left" Margin="0,6,0,0">0</TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Height="Auto">
+                                <Label>Classificados corretamente:</Label>
+                                <TextBlock x:Name="txDTAcertos" TextAlignment="Left" Margin="0,6,0,0">0</TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Height="Auto">
+                                <Label>Classificados incorretamente:</Label>
+                                <TextBlock x:Name="txDTErros" TextAlignment="Left" Margin="0,6,0,0">0</TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Height="Auto">
+                                <Label>Porcentagem de acertos:</Label>
+                                <TextBlock x:Name="txDTPorcentagemAcertos" TextAlignment="Left" Margin="0,6,0,0">0</TextBlock>
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
