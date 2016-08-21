@@ -24,8 +24,8 @@ namespace StudentPerformanceApp
         {
             DataTable data = new DataTable("Students Performance");
 
-            var labels = new[] { "school", "age", "address", "sex", "famsize", "Medu", "Pstatus", "Fedu", "traveltime",
-                "studytime", "famrel", "freetime", "goout", "Dalc", "Walc", "health", "G1","G2","G3" };
+            var labels = new[] { "school", "age", "address", "sex", "Medu", "Pstatus", "Fedu", "traveltime",
+                "studytime", "famrel", "freetime", "goout", "Dalc", "Walc", "health", "G1","G2","G3", "famsize" };
 
             data.Columns.Add("ID");
             foreach (var label in labels)
@@ -42,7 +42,6 @@ namespace StudentPerformanceApp
                                 student.Age,
                                 student.Addreess,
                                 student.Sex,
-                                student.FamilySize,
                                 student.MotherEducation,
                                 student.ParentsCohabitationStatus,
                                 student.FatherEducation,
@@ -56,7 +55,8 @@ namespace StudentPerformanceApp
                                 student.CurrentHealthStatus,
                                 student.G1,
                                 student.G2,
-                                student.G3);
+                                student.G3,
+                                student.FamilySize);
             };
 
             // Create a new codification codebook to 
@@ -66,10 +66,10 @@ namespace StudentPerformanceApp
             // Translate our training data into integer symbols using our codebook:
             DataTable symbols = codebook.Apply(data);
 
-            int[][] inputs = symbols.ToArray<int>(new[] { "school", "age", "address", "sex", "famsize", "Medu", "Pstatus", "Fedu", "traveltime", 
-                "studytime", "famrel", "freetime", "goout", "Dalc", "Walc", "health", "G1","G2" });
+            int[][] inputs = symbols.ToArray<int>(new[] { "school", "age", "address", "sex", "Medu", "Pstatus", "Fedu", "traveltime", 
+                "studytime", "famrel", "freetime", "goout", "Dalc", "Walc", "health", "G1","G2","G3" });
 
-            int[] outputs = symbols.ToArray<int>("G3");
+            int[] outputs = symbols.ToArray<int>("famsize");
             // Gather information about decision variables
 
             // Gather information about decision variables
@@ -79,7 +79,6 @@ namespace StudentPerformanceApp
               new DecisionVariable("age", 8),  
               new DecisionVariable("address",    2),
               new DecisionVariable("sex",    2),
-              new DecisionVariable("famsize", 2),
               new DecisionVariable("Medu", 5),
               new DecisionVariable("Pstatus", 5), 
               new DecisionVariable("Fedu", 5),
@@ -92,7 +91,8 @@ namespace StudentPerformanceApp
               new DecisionVariable("Walc",5),            
               new DecisionVariable("health",  5),   
               new DecisionVariable("G1",21),
-               new DecisionVariable("G2",21)  
+              new DecisionVariable("G2",21),
+              new DecisionVariable("G3",21)
             };
 
             int classCount = 21;
@@ -105,9 +105,9 @@ namespace StudentPerformanceApp
 
             // Learn the training instances!
             id3learning.Run(inputs, outputs);
-            var translate = codebook.Translate("GP", "15", "U", "F", "GT3", "4", "A", "4", "2", "2", "4", "3", "4", "2", "2", "2", "11","12");
-            string answer = codebook.Translate("G3", tree.Compute(translate));
-            var a = 0;
+            //var translate = codebook.Translate("GP", "15", "U", "F", "4", "A", "4", "2", "2", "4", "3", "4", "2", "2", "2", "11","12","11");
+            //string answer = codebook.Translate("famsize", tree.Compute(translate));
+            //var a = 0;
 
             List<bool> sucess = new List<bool>();
             students.ForEach(student =>
@@ -116,7 +116,6 @@ namespace StudentPerformanceApp
                     student.Age.ToString(),
                     student.Addreess,
                     student.Sex,
-                    student.FamilySize,
                     student.MotherEducation.ToString(),
                     student.ParentsCohabitationStatus.ToString(),
                     student.FatherEducation.ToString(),
@@ -129,12 +128,13 @@ namespace StudentPerformanceApp
                     student.WeekendAlcoholConsumption.ToString(),
                     student.CurrentHealthStatus.ToString(),
                     student.G1.ToString(),
-                    student.G2.ToString());
-                string answer2 = codebook.Translate("G3", tree.Compute(translate));
-                sucess.Add(answer2 == student.G3.ToString());
+                    student.G2.ToString(),
+                    student.G3.ToString());
+                string answer2 = codebook.Translate("famsize", tree.Compute(translate2));
+                sucess.Add(answer2 == student.FamilySize);
             });
 
-            var q = sucess.Where(c => c).ToList().Count;
+            int q = sucess.Where(c => c).ToList().Count;
 
             return q;
         }
