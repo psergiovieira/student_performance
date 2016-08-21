@@ -360,7 +360,7 @@ namespace StudentPerformanceApp.Entities
             set
             {
                 _failures = value;
-                if (_failures < 1 || _studyTime > 3)
+                if (_failures > 3)
                     _failures = 4;
             }
         }
