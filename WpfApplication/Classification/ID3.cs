@@ -25,7 +25,8 @@ namespace StudentPerformanceApp
             DataTable data = new DataTable("Students Performance");
 
             var labels = new[] { "school", "age", "address", "sex", "Medu", "Pstatus", "Fedu", "traveltime",
-                "studytime", "famrel", "freetime", "goout", "Dalc", "Walc", "health", "G1","G2","G3", "schoolsup", "famsize" };
+                "studytime", "famrel", "freetime", "goout", "Dalc", "Walc", "health", "G1","G2","G3", "schoolsup", "failures", "famsup", "paid", 
+                "activities","nursery", "higher", "internet", "romantic", "absences", "Mjob", "Fjob", "reason", "guardian", "famsize" };
 
             data.Columns.Add("ID");
             foreach (var label in labels)
@@ -34,31 +35,44 @@ namespace StudentPerformanceApp
             }
 
             int count = 0;
-          
+
             foreach (var student in students)
             {
                 count++;
                 data.Rows.Add(count.ToString(),
-                                student.School,
-                                student.Age,
-                                student.Addreess,
-                                student.Sex,
-                                student.MotherEducation,
-                                student.ParentsCohabitationStatus,
-                                student.FatherEducation,
-                                student.TravelTime,
-                                student.StudyTime,
-                                student.FamilyRelationships,
-                                student.FreeTime,
-                                student.Goout,
-                                student.WorkdayAlcoholConsumption,
-                                student.WeekendAlcoholConsumption,
-                                student.CurrentHealthStatus,
-                                student.G1,
-                                student.G2,
-                                student.G3,
-                                student.SchoolSuport,
-                                student.FamilySize);
+                    student.School,
+                    student.Age,
+                    student.Addreess,
+                    student.Sex,
+                    student.MotherEducation,
+                    student.ParentsCohabitationStatus,
+                    student.FatherEducation,
+                    student.TravelTime,
+                    student.StudyTime,
+                    student.FamilyRelationships,
+                    student.FreeTime,
+                    student.Goout,
+                    student.WorkdayAlcoholConsumption,
+                    student.WeekendAlcoholConsumption,
+                    student.CurrentHealthStatus,
+                    student.G1,
+                    student.G2,
+                    student.G3,
+                    student.SchoolSuport,
+                    student.Failures,
+                    student.FamilySuport,
+                    student.Paid,
+                    student.Activities,
+                    student.Nursery,
+                    student.Higher,
+                    student.Internet,
+                    student.Romantic,
+                    student.Absences,
+                    student.MotherJob,
+                    student.FatherJob,
+                    student.Reason,
+                    student.Guardian,
+                    student.FamilySize);
             };
 
             // Create a new codification codebook to 
@@ -69,7 +83,8 @@ namespace StudentPerformanceApp
             DataTable symbols = codebook.Apply(data);
 
             int[][] inputs = symbols.ToArray<int>(new[] { "school", "age", "address", "sex", "Medu", "Pstatus", "Fedu", "traveltime", 
-                "studytime", "famrel", "freetime", "goout", "Dalc", "Walc", "health", "G1","G2","G3", "schoolsup" });
+                "studytime", "famrel", "freetime", "goout", "Dalc", "Walc", "health", "G1","G2","G3", "schoolsup", "failures","famsup", "paid", 
+                "activities","nursery", "higher", "internet", "romantic", "absences","Mjob", "Fjob", "reason", "guardian"});
 
             int[] outputs = symbols.ToArray<int>("famsize");
             // Gather information about decision variables
@@ -95,7 +110,20 @@ namespace StudentPerformanceApp
               new DecisionVariable("G1",21),
               new DecisionVariable("G2",21),
               new DecisionVariable("G3",21),
-              new DecisionVariable("schoolsup", 2)
+              new DecisionVariable("schoolsup", 2),
+              new DecisionVariable("failures", 5),
+              new DecisionVariable("famsup", 2),
+              new DecisionVariable("paid", 2),
+              new DecisionVariable("activities", 2),
+              new DecisionVariable("nursery", 2),
+              new DecisionVariable("higher", 2),
+              new DecisionVariable("internet", 2),
+              new DecisionVariable("romantic", 2),
+              new DecisionVariable("absences", 94), 
+              new DecisionVariable("Mjob", 5), 
+              new DecisionVariable("Fjob", 5), 
+              new DecisionVariable("reason", 6), 
+              new DecisionVariable("guardian", 3), 
             };
 
             int classCount = 2;
@@ -108,8 +136,6 @@ namespace StudentPerformanceApp
 
             // Learn the training instances!
             id3learning.Run(inputs, outputs);
-            var translate = codebook.Translate("GP", "15", "U", "F", "4", "A", "4", "2", "2", "4", "3", "4", "2", "2", "2", "11", "12", "11", "NO");
-            string answer = codebook.Translate("famsize", tree.Compute(translate));
 
             List<bool> sucess = new List<bool>();
             students.ForEach(student =>
@@ -132,7 +158,21 @@ namespace StudentPerformanceApp
                     student.G1.ToString(),
                     student.G2.ToString(),
                     student.G3.ToString(),
-                    student.SchoolSuport);
+                    student.SchoolSuport,
+                    student.Failures.ToString(),
+                    student.FamilySuport,
+                    student.Paid,
+                    student.Activities,
+                    student.Nursery,
+                    student.Higher,
+                    student.Internet,
+                    student.Romantic,
+                    student.Absences.ToString(),
+                    student.MotherJob,
+                    student.FatherJob,
+                    student.Reason,
+                    student.Guardian);
+
                 string answer2 = codebook.Translate("famsize", tree.Compute(translate2));
                 sucess.Add(answer2 == student.FamilySize);
             });
