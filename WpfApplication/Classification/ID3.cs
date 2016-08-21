@@ -34,6 +34,7 @@ namespace StudentPerformanceApp
             }
 
             int count = 0;
+          
             foreach (var student in students)
             {
                 count++;
@@ -97,7 +98,7 @@ namespace StudentPerformanceApp
               new DecisionVariable("schoolsup", 2)
             };
 
-            int classCount = 21;
+            int classCount = 2;
 
             //Create the decision tree using the attributes and classes
             DecisionTree tree = new DecisionTree(attributes, classCount);
@@ -107,9 +108,8 @@ namespace StudentPerformanceApp
 
             // Learn the training instances!
             id3learning.Run(inputs, outputs);
-            var translate = codebook.Translate("GP", "15", "U", "F", "4", "A", "4", "2", "2", "4", "3", "4", "2", "2", "2", "11", "12", "11","NO");
+            var translate = codebook.Translate("GP", "15", "U", "F", "4", "A", "4", "2", "2", "4", "3", "4", "2", "2", "2", "11", "12", "11", "NO");
             string answer = codebook.Translate("famsize", tree.Compute(translate));
-            var a = 0;
 
             List<bool> sucess = new List<bool>();
             students.ForEach(student =>
