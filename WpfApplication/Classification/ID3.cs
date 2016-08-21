@@ -1,79 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Accord.MachineLearning.DecisionTrees;
 using Accord.MachineLearning.DecisionTrees.Learning;
 using Accord.Math;
+using Accord.Statistics.Analysis;
 using Accord.Statistics.Filters;
+using StudentPerformanceApp.Classification;
 using StudentPerformanceApp.Entities;
 
 namespace StudentPerformanceApp
 {
     public class ID3
     {
-        public ID3()
-        {
-
-        }
-
-        public int Compute(List<Student> students)
+        public ConfusionMatrix Compute(List<Student> students)
         {
             DataTable data = new DataTable("Students Performance");
 
-            var labels = new[] { "school", "age", "address", "sex", "Medu", "Pstatus", "Fedu", "traveltime",
-                "studytime", "famrel", "freetime", "goout", "Dalc", "Walc", "health", "G1","G2","G3", "schoolsup", "failures", "famsup", "paid", 
-                "activities","nursery", "higher", "internet", "romantic", "absences", "Mjob", "Fjob", "reason", "guardian", "famsize" };
-
-            data.Columns.Add("ID");
-            foreach (var label in labels)
-            {
-                data.Columns.Add(label);
-            }
-
-            int count = 0;
-
-            foreach (var student in students)
-            {
-                count++;
-                data.Rows.Add(count.ToString(),
-                    student.School,
-                    student.Age,
-                    student.Addreess,
-                    student.Sex,
-                    student.MotherEducation,
-                    student.ParentsCohabitationStatus,
-                    student.FatherEducation,
-                    student.TravelTime,
-                    student.StudyTime,
-                    student.FamilyRelationships,
-                    student.FreeTime,
-                    student.Goout,
-                    student.WorkdayAlcoholConsumption,
-                    student.WeekendAlcoholConsumption,
-                    student.CurrentHealthStatus,
-                    student.G1,
-                    student.G2,
-                    student.G3,
-                    student.SchoolSuport,
-                    student.Failures,
-                    student.FamilySuport,
-                    student.Paid,
-                    student.Activities,
-                    student.Nursery,
-                    student.Higher,
-                    student.Internet,
-                    student.Romantic,
-                    student.Absences,
-                    student.MotherJob,
-                    student.FatherJob,
-                    student.Reason,
-                    student.Guardian,
-                    student.FamilySize);
-            };
+            var labels = UtilClassification.ALL_ATTRIBUTES;
+            UtilClassification.FillColumns(data, labels);
+            UtilClassification.FillRows(data, students);
 
             // Create a new codification codebook to 
             // convert strings into integer symbols
@@ -82,49 +27,13 @@ namespace StudentPerformanceApp
             // Translate our training data into integer symbols using our codebook:
             DataTable symbols = codebook.Apply(data);
 
-            int[][] inputs = symbols.ToArray<int>(new[] { "school", "age", "address", "sex", "Medu", "Pstatus", "Fedu", "traveltime", 
-                "studytime", "famrel", "freetime", "goout", "Dalc", "Walc", "health", "G1","G2","G3", "schoolsup", "failures","famsup", "paid", 
-                "activities","nursery", "higher", "internet", "romantic", "absences","Mjob", "Fjob", "reason", "guardian"});
+            int[][] inputs = symbols.ToArray<int>(UtilClassification.TRAINING_ATTRIBUTES);
 
             int[] outputs = symbols.ToArray<int>("famsize");
             // Gather information about decision variables
 
             // Gather information about decision variables
-            DecisionVariable[] attributes =
-            {
-              new DecisionVariable("school",     2), 
-              new DecisionVariable("age", 8),  
-              new DecisionVariable("address",    2),
-              new DecisionVariable("sex",    2),
-              new DecisionVariable("Medu", 5),
-              new DecisionVariable("Pstatus", 5), 
-              new DecisionVariable("Fedu", 5),
-              new DecisionVariable("traveltime",4),   
-              new DecisionVariable("studytime",4),           
-              new DecisionVariable("famrel", 5),  
-              new DecisionVariable("freetime", 5),  
-              new DecisionVariable("goout",5), 
-              new DecisionVariable("Dalc", 5), 
-              new DecisionVariable("Walc",5),            
-              new DecisionVariable("health",  5),   
-              new DecisionVariable("G1",21),
-              new DecisionVariable("G2",21),
-              new DecisionVariable("G3",21),
-              new DecisionVariable("schoolsup", 2),
-              new DecisionVariable("failures", 5),
-              new DecisionVariable("famsup", 2),
-              new DecisionVariable("paid", 2),
-              new DecisionVariable("activities", 2),
-              new DecisionVariable("nursery", 2),
-              new DecisionVariable("higher", 2),
-              new DecisionVariable("internet", 2),
-              new DecisionVariable("romantic", 2),
-              new DecisionVariable("absences", 94), 
-              new DecisionVariable("Mjob", 5), 
-              new DecisionVariable("Fjob", 5), 
-              new DecisionVariable("reason", 6), 
-              new DecisionVariable("guardian", 3), 
-            };
+            var attributes = DecisionVariables();
 
             int classCount = 2;
 
@@ -138,6 +47,9 @@ namespace StudentPerformanceApp
             id3learning.Run(inputs, outputs);
 
             List<bool> sucess = new List<bool>();
+            int[] expected = new int[students.Count];
+            int[] predicted = new int[students.Count];
+            int count = 0;
             students.ForEach(student =>
             {
                 var translate2 = codebook.Translate(student.School,
@@ -174,12 +86,59 @@ namespace StudentPerformanceApp
                     student.Guardian);
 
                 string answer2 = codebook.Translate("famsize", tree.Compute(translate2));
-                sucess.Add(answer2 == student.FamilySize);
+                bool isCorrect = answer2 == student.FamilySize;
+                sucess.Add(isCorrect);
+                expected[count] = 1;
+                predicted[count] = isCorrect ? 1 : 0;
+
+                count++;
             });
 
-            int q = sucess.Where(c => c).ToList().Count;
+            int positiveValue = 1;
+            int negativeValue = 0;
+            ConfusionMatrix matrix = new ConfusionMatrix(predicted, expected, positiveValue, negativeValue);
+            
+            return matrix;
+        }
 
-            return q;
+        private static DecisionVariable[] DecisionVariables()
+        {
+            DecisionVariable[] attributes =
+            {
+                new DecisionVariable("school", 2),
+                new DecisionVariable("age", 8),
+                new DecisionVariable("address", 2),
+                new DecisionVariable("sex", 2),
+                new DecisionVariable("Medu", 5),
+                new DecisionVariable("Pstatus", 5),
+                new DecisionVariable("Fedu", 5),
+                new DecisionVariable("traveltime", 4),
+                new DecisionVariable("studytime", 4),
+                new DecisionVariable("famrel", 5),
+                new DecisionVariable("freetime", 5),
+                new DecisionVariable("goout", 5),
+                new DecisionVariable("Dalc", 5),
+                new DecisionVariable("Walc", 5),
+                new DecisionVariable("health", 5),
+                new DecisionVariable("G1", 21),
+                new DecisionVariable("G2", 21),
+                new DecisionVariable("G3", 21),
+                new DecisionVariable("schoolsup", 2),
+                new DecisionVariable("failures", 5),
+                new DecisionVariable("famsup", 2),
+                new DecisionVariable("paid", 2),
+                new DecisionVariable("activities", 2),
+                new DecisionVariable("nursery", 2),
+                new DecisionVariable("higher", 2),
+                new DecisionVariable("internet", 2),
+                new DecisionVariable("romantic", 2),
+                new DecisionVariable("absences", 94),
+                new DecisionVariable("Mjob", 5),
+                new DecisionVariable("Fjob", 5),
+                new DecisionVariable("reason", 6),
+                new DecisionVariable("guardian", 3)
+            };
+            return attributes;
         }
 
         #region Example
@@ -246,10 +205,7 @@ namespace StudentPerformanceApp
             // Translate our training data into integer symbols using our codebook:
             DataTable symbols = codebook.Apply(data);
 
-            int[][] inputs = symbols.ToArray<int>(new[]{"sex","age","address","famsize","Pstatus","Medu","Fedu","Mjob","Fjob",
-                "reason","guardian","traveltime","studytime","failures","schoolsup","famsup","paid","activities",
-                "nursery","higher","internet","romantic","famrel","freetime","goout","Dalc","Walc","health","absences",
-                "G1","G2","G3"});
+            int[][] inputs = symbols.ToArray<int>("sex", "age", "address", "famsize", "Pstatus", "Medu", "Fedu", "Mjob", "Fjob", "reason", "guardian", "traveltime", "studytime", "failures", "schoolsup", "famsup", "paid", "activities", "nursery", "higher", "internet", "romantic", "famrel", "freetime", "goout", "Dalc", "Walc", "health", "absences", "G1", "G2", "G3");
 
             int[] outputs = symbols.ToArray<int>("school");
 
@@ -339,7 +295,7 @@ namespace StudentPerformanceApp
             // Translate our training data into integer symbols using our codebook:
             DataTable symbols = codebook.Apply(data);
 
-            int[][] inputs = symbols.ToArray<int>(new[] { "school", "age", "address", "sex" });
+            int[][] inputs = symbols.ToArray<int>("school", "age", "address", "sex");
 
             int[] outputs = symbols.ToArray<int>("G3");
             // Gather information about decision variables
@@ -399,7 +355,7 @@ namespace StudentPerformanceApp
             // Translate our training data into integer symbols using our codebook:
             DataTable symbols = codebook.Apply(data);
 
-            int[][] inputs = symbols.ToArray<int>(new[] { "school", "age", "address" });
+            int[][] inputs = symbols.ToArray<int>("school", "age", "address");
 
             int[] outputs = symbols.ToArray<int>("sex");
             // Gather information about decision variables
